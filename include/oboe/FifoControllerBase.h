@@ -35,7 +35,9 @@ class FifoControllerBase {
 
 public:
     /**
-     * @param totalFrames capacity of the circular buffer in frames.
+     * Construct a `FifoBuffer`.
+     *
+     * @param totalFrames capacity of the circular buffer in frames
      */
     FifoControllerBase(uint32_t totalFrames);
 
@@ -45,42 +47,90 @@ public:
      * The frames available to read will be calculated from the read and write counters.
      * The result will be clipped to the capacity of the buffer.
      * If the buffer has underflowed then this will return zero.
-     * @return number of valid frames available to read.
+     *
+     * @return number of valid frames available to read
      */
     uint32_t getFullFramesAvailable() const;
 
     /**
      * The index in a circular buffer of the next frame to read.
+     *
+     * @return read index position
      */
     uint32_t getReadIndex() const;
 
     /**
+     * Advance read index from a number of frames.
+     * Equivalent of incrementReadCounter(numFrames).
+     *
      * @param numFrames number of frames to advance the read index
      */
     void advanceReadIndex(uint32_t numFrames);
 
     /**
-     * @return maximum number of frames that can be written without exceeding the threshold.
+     * Get the number of frame that are not written yet.
+     *
+     * @return maximum number of frames that can be written without exceeding the threshold
      */
     uint32_t getEmptyFramesAvailable() const;
 
     /**
      * The index in a circular buffer of the next frame to write.
+     *
+     * @return index of the next frame to write
      */
     uint32_t getWriteIndex() const;
 
-    /**
+     /**
+     * Advance write index from a number of frames.
+     * Equivalent of incrementWriteCounter(numFrames).
+     *
      * @param numFrames number of frames to advance the write index
      */
     void advanceWriteIndex(uint32_t numFrames);
 
     uint32_t getFrameCapacity() const { return mTotalFrames; }
 
+    /**
+	 * Get the position of read counter.
+	 *
+	 * @return position of read counter
+	 */
     virtual uint64_t getReadCounter() const = 0;
+
+    /**
+     * Set the position of read counter.
+     *
+     * @param n position of read counter
+     */
     virtual void setReadCounter(uint64_t n) = 0;
+
+    /**
+     * Increment the actual read counter value.
+     *
+     * @param n increment write counter
+     */
     virtual void incrementReadCounter(uint64_t n) = 0;
+
+    /**
+     * Get the position of write counter.
+     *
+     * @return position of write counter
+     */
     virtual uint64_t getWriteCounter() const = 0;
+
+    /**
+     * Set the position of write counter.
+     *
+     * @param n position of write counter
+     */
     virtual void setWriteCounter(uint64_t n) = 0;
+
+    /**
+     * Increment the actual write counter value.
+     *
+     * @param n increment write counter
+     */
     virtual void incrementWriteCounter(uint64_t n) = 0;
 
 private:
