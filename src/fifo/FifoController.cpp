@@ -16,7 +16,7 @@
 
 #include <stdint.h>
 
-#include "FifoControllerBase.h"
+#include "oboe/FifoControllerBase.h"
 #include "FifoController.h"
 
 namespace oboe {
